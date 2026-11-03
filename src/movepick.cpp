@@ -219,7 +219,7 @@ ExtMove* MovePicker::generate_and_score() {
             m.value = (*captureHistory)[pc][to][type_of(capturedPiece)]
                     + 7 * int(PieceValue[capturedPiece]);
 
-        else if constexpr (Type == QUIETS)
+        else if constexpr (Type == QUIETS || Type == EVASIONS)
         {
             // Use a local accumulator to eliminate redundant stores to m.value
 
@@ -252,7 +252,7 @@ ExtMove* MovePicker::generate_and_score() {
             if (pos.capture_stage(m))
                 m.value = PieceValue[capturedPiece] + (1 << 28);
             else
-                m.value = (*mainHistory)[us][m.raw()] + (*continuationHistory[0])[pc][to];
+                m.value = (*mainHistory)[us][m.raw()] + (*continuationHistory[0])[pc][to] - 24 * bool(threatByLesser[pt] & to) * PieceValue[pt];
         }
     }
     return it;
