@@ -1186,7 +1186,7 @@ moves_loop:  // When in check, search starts here
 
         // Decrease reduction for PvNodes
         if (PvNode)
-            r -= 512;
+            r -= 448;
 
         // Increase reduction for ttPv nodes
         // (*Scaler) Larger values scale well.
